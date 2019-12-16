@@ -22,12 +22,10 @@ exports.verificaToken = function (req, res, next) {
             });
         }
 
-        
         req.usuario = decoded.usuario;
 
-        // Puede continuar
         next();
-
+        // Puede continuar
         // res.status(200).json({
         //     ok: true,
         //     decoded: decoded

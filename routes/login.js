@@ -12,7 +12,7 @@ var Usuario = require('../models/usuario'); // Nos permite utilizar todos las fu
 
 // Metodo de Login
 
-app.post('/', (req, res)=>{
+app.post('/', (req, res) => {
 
 
     // Recibir correo y contraseña
@@ -20,19 +20,20 @@ app.post('/', (req, res)=>{
 
 
     // Verificación de usuario si tiene este correo electronico 
-    Usuario.findOne({email: body.email},  (err, usuarioBD)=>{
+    Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
 
         // En caso de error
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al buscar usuarios!',
+                mensaje: 'Error al buscar usuario',
                 errors: err
             });
         }
 
+
         // Evaluar si existe el usuario
-        if( !usuarioBD ){
+        if (!usuarioDB) {
             return res.status(400).json({
                 ok: false,
                 mensaje: 'Credenciales incorrectas - email',
@@ -41,38 +42,30 @@ app.post('/', (req, res)=>{
         }
 
         // Evaluamos la contraseña | bcrypt.compareSync: regresa un valor booleano
-        if( !bcrypt.compareSync( body.password, usuarioBD.password) ) {
+        if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
             return res.status(400).json({
                 ok: false,
                 mensaje: 'Credenciales incorrectas - password',
                 errors: err
             });
-            
         }
 
         // Crear un Token : parametros payload, semilla (definir de forma unica)  y la fecha de expiración
-        usuarioBD.password =':)'; // quitando contraseña
-        var token = jwt.sign({Usuario: usuarioBD}, SEED ,{expiresIn:14000}) // expira en 4 horas
+        usuarioDB.password = ':)'; // quitando contraseña
+        var token = jwt.sign({ usuario: usuarioDB }, SEED, { expiresIn: 14400 }); // 4 horas
 
         // En caso de exito
         res.status(200).json({
             ok: true,
-            Usuario: usuarioBD,
+            usuario: usuarioDB,
             token: token,
-            id: usuarioBD._id
-         });
+            id: usuarioDB._id
+        });
+
 
     });
 
 });
-
-
-
-
-
-
-
-
 
 
 // Exportar esta ruta fuera de este archivo
