@@ -23,6 +23,7 @@ var usuarioSchema = new Shema({
     password: { type: String, required: [true, 'La contraseña es necesaria'] },
     img: { type: String, required: false },
     role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos },
+    google: { type: Boolean, required: true, default: false }
 
 });
 
