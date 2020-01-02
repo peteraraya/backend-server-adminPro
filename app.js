@@ -6,6 +6,15 @@ var bodyParser = require('body-parser');
 // Inicializar variables
 var app = express(); // incializando mi servidor de express
 
+// Middleware CORS
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 // Body Parser, body parse toma lo que se envie por boy y lo convierte en objeto js para poderlo utilizar en cualquier lugar
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
