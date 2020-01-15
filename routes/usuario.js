@@ -20,7 +20,7 @@ app.get('/', (req, res, next) => {
     var desde = req.query.desde || 0; // si no viene nada voy a poner un 0
     desde = Number(desde);
 
-    Usuario.find({}, 'nombre email img role') // realizo un filtro de los campos que deseo mostrar
+    Usuario.find({}, 'nombre email img role google') // realizo un filtro de los campos que deseo mostrar
         .skip(desde) // salte y muestre los siguiente
         .limit(5) // asigo el limite de registros
         .exec(
