@@ -50,7 +50,8 @@ app.get('/', (req, res, next) => {
 // Actualizar usuario
 // ======================================================
 // es necesario mandar un id para este recurso
-app.put('/:id', mdAutenticacion.verificaToken , (req, res) => {
+// si quiero mandar 2 o más middleware los coloco entre llaves
+app.put('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaADMIN_o_MismoUsuario] , (req, res) => {
     //obtener id
     var id = req.params.id;
     var body = req.body;
@@ -146,7 +147,7 @@ app.post('/', (req, res) => {
 // Boorar un usuario por id
 // ======================================================
 
-app.delete('/:id', mdAutenticacion.verificaToken ,(req, res, next) => {
+app.delete('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaADMIN_ROLE] ,(req, res, next) => {
     //obtener id
     var id = req.params.id;
 
